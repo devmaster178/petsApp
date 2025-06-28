@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PetController!{% endblock %}
+
+{% block body %}
+    <div class="w-full flex justify-center bg-gray-100 min-h-full">
+        <form action="#" class="w-2/4 p-6 mt-6 bg-white shadow-md rounded">
+            <div class="relative mb-4">
+                <p class="text-2xl text-blue-300">Tell us about your dog</p>
+            </div>
+            <div class="relative mb-4">
+                <label for="name" class="flex  items-center mb-2 text-gray-600 text-sm font-medium">What is your dog's name? <svg width="7" height="7" class="ml-1" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.11222 6.04545L3.20668 3.94744L1.43679 5.08594L0.894886 4.14134L2.77415 3.18182L0.894886 2.2223L1.43679 1.2777L3.20668 2.41619L3.11222 0.318182H4.19105L4.09659 2.41619L5.86648 1.2777L6.40838 2.2223L4.52912 3.18182L6.40838 4.14134L5.86648 5.08594L4.09659 3.94744L4.19105 6.04545H3.11222Z" fill="#EF4444" />
+                    </svg>
+                </label>
+                <input type="text" id="name" class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none " placeholder="Name..." required="" />
+            </div>
+
+            <div class="relative mb-4">
+                <label for="breed" class="flex items-center mb-2 text-gray-600 text-sm font-medium">What is breed are they? <svg width="7" height="7" class="ml-1" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.11222 6.04545L3.20668 3.94744L1.43679 5.08594L0.894886 4.14134L2.77415 3.18182L0.894886 2.2223L1.43679 1.2777L3.20668 2.41619L3.11222 0.318182H4.19105L4.09659 2.41619L5.86648 1.2777L6.40838 2.2223L4.52912 3.18182L6.40838 4.14134L5.86648 5.08594L4.09659 3.94744L4.19105 6.04545H3.11222Z" fill="#EF4444" />
+                    </svg>
+                </label>
+                <input type="text" id="breed" class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none " placeholder="Name..." required="" />
+            </div>
+
+            <div class="relative mb-4 px-8">
+                <p class="mb-2 text-gray-600 text-sm font-medium">Choose one</p>
+                <div class="flex items-center mb-4">
+                    <input id="default-radio-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="default-radio-1" class="ms-2 text-sm font-medium text-gray-600">I don't know</label>
+                </div>
+                <div class="flex items-center">
+                    <input checked id="default-radio-2" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="default-radio-2" class="ms-2 text-sm font-medium text-gray-600">It's a mix</label>
+                </div>
+                <div class="flex items-center mt-3">
+                    <input type="text" id="breed" class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none " placeholder="Collie, poodle, lab" />
+                </div>
+            </div>
+
+            <div class="relative mb-4 space-y-2 px-8">
+                <p class="text-sm font-medium text-gray-600">What gender are they?</p>
+                <div class="inline-flex rounded-md shadow-sm" role="group">
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="gender" class="hidden peer" checked>
+                        <span class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-50 peer-checked:bg-blue-400 peer-checked:text-white peer-checked:border-blue-500 peer-checked:z-10">
+                            Female
+                        </span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="gender" class="hidden peer">
+                        <span class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-r-lg hover:bg-gray-50 peer-checked:bg-blue-400 peer-checked:text-white peer-checked:border-blue-500 peer-checked:z-10">
+                            Male
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="relative mb-4 space-y-2 px-8">
+                <p class="text-sm font-medium text-gray-600">Do you know their date of birth?</p>
+                <div class="inline-flex rounded-md shadow-sm" role="group">
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="gender" class="hidden peer" checked>
+                        <span class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-50 peer-checked:bg-blue-400 peer-checked:text-white peer-checked:border-blue-500 peer-checked:z-10">
+                            Yes
+                        </span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="gender" class="hidden peer">
+                        <span class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-r-lg hover:bg-gray-50 peer-checked:bg-blue-400 peer-checked:text-white peer-checked:border-blue-500 peer-checked:z-10">
+                            No
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="relative mb-4">
+                <label for="age" class="flex items-center mb-2 text-gray-600 text-sm font-medium">Approximate Age? <svg width="7" height="7" class="ml-1" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.11222 6.04545L3.20668 3.94744L1.43679 5.08594L0.894886 4.14134L2.77415 3.18182L0.894886 2.2223L1.43679 1.2777L3.20668 2.41619L3.11222 0.318182H4.19105L4.09659 2.41619L5.86648 1.2777L6.40838 2.2223L4.52912 3.18182L6.40838 4.14134L5.86648 5.08594L4.09659 3.94744L4.19105 6.04545H3.11222Z" fill="#EF4444" />
+                    </svg>
+                </label>
+                <input type="number" id="age" class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none " placeholder="Name..." required="" />
+            </div>
+
+            <div class="flex flex-wrap -mx-3 mb-4">
+                <div class="w-full md:w-1/3 px-3 mb-4 md:mb-0">
+                    <label class="block tracking-wide text-gray-700 text-sm font-medium mb-2" for="grid-state">
+                        Month
+                    </label>
+                    <div class="relative">
+                        <select class="block appearance-none w-full border border-gray-200 text-gray-600 text-sm font-medium py-3 px-4 pr-8 h-11 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                            <option>New Mexico</option>
+                            <option>Missouri</option>
+                            <option>Texas</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/3 px-3 mb-4 md:mb-0">
+                    <label class="block tracking-wide text-gray-600 text-sm font-medium mb-2" for="grid-city">
+                        Day
+                    </label>
+                    <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 h-11 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="Albuquerque">
+                </div>
+                <div class="w-full md:w-1/3 px-3 mb-4 md:mb-0">
+                    <label class="block tracking-wide text-gray-600 text-sm font-medium mb-2" for="grid-zip">
+                        Year
+                    </label>
+                    <input class="block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 h-11 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip" type="text" placeholder="90210">
+                </div>
+            </div>
+            <div class="flex justify-center">
+                <button class="w-52 h-11 shadow-sm rounded-md bg-blue-600 hover:bg-blue-800 transition-all duration-700 text-white text-base font-semibold leading-7">Continue</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
