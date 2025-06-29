@@ -1,20 +1,16 @@
 import { Controller } from '@hotwired/stimulus';
 
-/*
- * This is an example Stimulus controller!
- *
- * Any element with a data-controller="form" attribute will cause
- * this controller to be executed. The name "hello" comes from the filename:
- * form_controller.js -> "form"
- *
- * Delete this file or adapt it for your use!
- */
 export default class extends Controller {
-    static targets = [ "type", "breed" ]
+    static targets = [
+        "type",
+        "breed",
+        "approximateAge",
+        "dateOfBirth"
+    ];
 
-    // connect() {
-    //     console.log("Hello, Stimulus!", this.element)
-    // }
+    YES = "yes";
+
+    NO = "no";
 
     changeBreedUrl(){
         const selectedPetType = this.typeTarget.value;
@@ -22,6 +18,19 @@ export default class extends Controller {
         if (select2Controller && selectedPetType) {
             const newUrl= `/api/breeds?pet_type_id=${selectedPetType}`;
             select2Controller.setUrl(newUrl);
+        }
+    }
+
+    onDobChoiceChange(event){
+        const { value } = event.target;
+        if(value === this.YES){
+            this.dateOfBirthTarget.classList.remove('hidden');
+            this.approximateAgeTarget.classList.add('hidden');
+        }
+
+        if(value === this.NO){
+            this.dateOfBirthTarget.classList.add('hidden');
+            this.approximateAgeTarget.classList.remove('hidden');
         }
     }
 }
