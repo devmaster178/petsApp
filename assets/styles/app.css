@@ -37,3 +37,10 @@
     color: #4b5563;
 }
 /* End select2 styles*/
+
+/*hidden style*/
+/*.hidden {*/
+/*    opacity: 0 !important;*/
+/*    position: absolute !important;*/
+/*    z-index: -100;*/
+/*}*/

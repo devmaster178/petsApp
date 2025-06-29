@@ -1,6 +1,7 @@
 <?php
 namespace App\Form;
 
+use App\Entity\Breed;
 use App\Entity\Pet;
 use App\Entity\PetType;
 use App\Enum\BreedChoiceEnum;
@@ -9,6 +10,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -37,7 +40,8 @@ class PetForm extends AbstractType
                 ],
                 'placeholder' => 'Select a pet type',
             ])
-            ->add('breed', ChoiceType::class, [
+            ->add('breed', EntityType::class, [
+                'class' => Breed::class,
                 'mapped' => false,
                 'constraints' => [
                     new Assert\NotBlank(),
@@ -45,15 +49,17 @@ class PetForm extends AbstractType
                 'choices' => [],
                 'attr' => ['id' => 'breed-dropdown'],
             ])
-            ->add('breed_choice', EnumType::class, [
+            ->add('breed_choice', EnumType::class, [ //depends on if can't find it was breed
                 'class' => BreedChoiceEnum::class,
                 'choice_label' => function (BreedChoiceEnum $choice) {
                     return $choice->getLabel();
                 },
                 'expanded' => true,
                 'multiple' => false,
+                'required' => false,
+                'placeholder' => null
             ])
-            ->add('breed_other', TextType::class,[
+            ->add('breed_other', TextType::class,[ //depends on mix breed_choice
                 'required' => false
             ])
             ->add('sex', EnumType::class, [
@@ -62,15 +68,18 @@ class PetForm extends AbstractType
                     return $choice->getLabel();
                 },
                 'expanded' => true,
+                'multiple' => false,
+                'required' => false,
+                'placeholder' => null
             ])
-            ->add('age',NumberType::class,[
+            ->add('age',NumberType::class,[ //depends on if dob is not known
                 'required' => false,
                 'constraints' => [
                     new Positive(),
                     new LessThanOrEqual(100),
                 ],
             ])
-            ->add('date_of_birth', DateType::class, [
+            ->add('date_of_birth', DateType::class, [ //depends on if dob is known
                 'widget' => 'choice',
                 'format' => 'yyyy-MM-dd',
                 'years' => range(date('Y') - 100, date('Y')),
@@ -83,6 +92,26 @@ class PetForm extends AbstractType
                 'choice_translation_domain' => true,
                 'by_reference' => false,
             ]);
+
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            $data = $event->getData();
+            $form = $event->getForm();
+
+            dd($data);
+            $breed = $data['breed'] ?? null;
+
+            if($breed == 0){
+                $form->add('breed_choice', EnumType::class, [
+                    'class' => BreedChoiceEnum::class,
+                    'choice_label' => function (BreedChoiceEnum $choice) {
+                        return $choice->getLabel();
+                    },
+                    'expanded' => true,
+                    'multiple' => false,
+                    'required' => true
+                ]);
+            }
+        });
     }
 
     private function getMonths(): array
