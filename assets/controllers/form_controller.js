@@ -5,12 +5,15 @@ export default class extends Controller {
         "type",
         "breed",
         "approximateAge",
-        "dateOfBirth"
+        "dateOfBirth",
+        "breedOther"
     ];
 
     YES = "yes";
 
     NO = "no";
+
+    MIX = "mix";
 
     changeBreedUrl(){
         const selectedPetType = this.typeTarget.value;
@@ -31,6 +34,18 @@ export default class extends Controller {
         if(value === this.NO){
             this.dateOfBirthTarget.classList.add('hidden');
             this.approximateAgeTarget.classList.remove('hidden');
+        }
+    }
+
+    onBreedChoiceChange(event){
+        const { value } = event.target;
+
+        if(value === this.MIX){
+            this.breedOtherTarget.classList.add('flex');
+            this.breedOtherTarget.classList.remove('hidden');
+        }else{
+            this.breedOtherTarget.classList.add('hidden');
+            this.breedOtherTarget.classList.remove('flex');
         }
     }
 }

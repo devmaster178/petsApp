@@ -56,13 +56,13 @@ export default class extends Controller {
 
     onSelect(event) {
         const selectedData = event.params.data;
-        console.log('Selected:', selectedData);
         if(!selectedData.id){
             this.show('#breedsChoice');
         }else{
             this.hide('#breedsChoice');
         }
     }
+
 
     show(selector) {
         const el = document.querySelector(selector);

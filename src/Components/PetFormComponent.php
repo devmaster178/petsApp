@@ -16,10 +16,6 @@ class PetFormComponent extends AbstractController
     use DefaultActionTrait;
     use ComponentWithFormTrait;
 
-    #[LiveProp(writable: true)]
-    public string $selectedType = '';
-    #[LiveProp]
-    public bool $formSubmitted = false;
     #[LiveProp]
     public bool $isSuccessful = false;
     #[LiveProp]
