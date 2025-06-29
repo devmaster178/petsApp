@@ -23,8 +23,8 @@ class BreedRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('breeds')
             ->orderBy('breeds.id', 'ASC')
-            ->setFirstResult($offset)
-            ->setMaxResults($limit);
+            ->setMaxResults($limit)
+            ->setFirstResult($offset);
 
         if ($searchValue !== null) {
             $qb->andWhere('breeds.name LIKE :val')
@@ -42,23 +42,19 @@ class BreedRepository extends ServiceEntityRepository
 
     public function countBreedsBy($filter): int{
         $qb = $this->createQueryBuilder('breeds')
-            ->select('count(breeds.id)');
+            ->select('count(breeds.id)')
+            ->join('breeds.pet_type', 'pet_types');
         foreach ($filter as $field => $value) {
             if($value){
-                $qb->andWhere('breeds.' . $field . ' = :' . $field)
-                    ->setParameter($field, $value);
+                if(trim($field) == "pet_type"){
+                    $qb->andWhere('pet_types.id = :' . $field)
+                        ->setParameter($field, $value);
+                }else{
+                    $qb->andWhere('breeds.'. $field .' LIKE :' . $field)
+                        ->setParameter($field, '%' . $value . '%');
+                }
             }
         }
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
-
-    //    public function findOneBySomeField($value): ?Breed
-    //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

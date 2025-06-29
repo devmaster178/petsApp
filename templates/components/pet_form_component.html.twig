@@ -60,14 +60,14 @@
                     'class': 'block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none',
                     'placeholder': 'Select breed...',
                     'data-controller':"select2",
-                    'data-select2-url-value':"#",
+                    'data-select2-url-value':"/api/breeds",
                     'data-select2-placeholder-value':"Search for a breed",
-                    'data-form-target':'breed'
+                    'data-form-target':'breed',
+                    'data-action': '"select2:select"->select2#onSelect "select2:unselect"->select2#onUnselect'
                 }
             })
         }}
         </div>
-
         <div class="relative mb-4 px-8">
             <p class="mb-2 text-gray-600 text-sm font-medium">Choose one</p>
             {% for child in form.breed_choice %}
@@ -88,22 +88,6 @@
                     }}
                 </div>
             {% endfor %}
-{#            <div class="flex items-center">#}
-{#                {{#}
-{#                    form_widget(form.breed_mix, {#}
-{#                        'attr': {#}
-{#                            'class': 'w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600',#}
-{#                        }#}
-{#                    })#}
-{#                }}#}
-{#                {{#}
-{#                    form_label(form.breed_mix,"It's a mix", {#}
-{#                        'label_attr': {#}
-{#                            'class': 'ms-2 text-sm font-medium text-gray-600'#}
-{#                        }#}
-{#                    })#}
-{#                }}#}
-{#            </div>#}
             <div class="flex items-center mt-3">
                 {{
                     form_widget(form.breed_other,{

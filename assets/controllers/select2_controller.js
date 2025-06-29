@@ -1,4 +1,4 @@
-import { Controller } from '@hotwired/stimulus';
+import {Controller} from '@hotwired/stimulus';
 import $ from 'jquery';
 import 'select2';
 
@@ -9,11 +9,12 @@ export default class extends Controller {
     };
 
     connect() {
-        this.initializeSelect2();
+        const select2 = this.initializeSelect2();
+        select2.on('select2:select', this.onSelect.bind(this));
     }
 
     initializeSelect2() {
-        $(this.element).select2({
+        return $(this.element).select2({
             ajax: {
                 url: () => this.urlValue,
                 dataType: 'json',
@@ -51,5 +52,13 @@ export default class extends Controller {
     setUrl(newUrl) {
         this.urlValue = newUrl;
         this.reload();
+    }
+
+    onSelect(event) {
+        const selectedData = event.params.data;
+        console.log('Selected:', selectedData);
+
+        // Example: update hidden field or call another method
+        // this.doSomething(selectedData);
     }
 }
