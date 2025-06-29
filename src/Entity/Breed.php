@@ -53,18 +53,6 @@ class Breed
         return $this;
     }
 
-    public function getCode(): ?string
-    {
-        return $this->code;
-    }
-
-    public function setCode(string $code): static
-    {
-        $this->code = $code;
-
-        return $this;
-    }
-
 
     public function getPetType(): ?PetType
     {

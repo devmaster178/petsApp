@@ -19,8 +19,9 @@ export default class extends Controller {
                 dataType: 'json',
                 delay: 250,
                 data: (params) => ({
-                    q: params.term,
-                    page: params.page || 1
+                    search: params.term,
+                    page: params.page || 1,
+                    pet_type_id: params.pet_type_id,
                 }),
                 processResults: (data) => ({
                     results: data.items,
