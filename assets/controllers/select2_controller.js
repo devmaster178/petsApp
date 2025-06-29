@@ -57,8 +57,20 @@ export default class extends Controller {
     onSelect(event) {
         const selectedData = event.params.data;
         console.log('Selected:', selectedData);
+        if(!selectedData.id){
+            this.show('#breedsChoice');
+        }else{
+            this.hide('#breedsChoice');
+        }
+    }
 
-        // Example: update hidden field or call another method
-        // this.doSomething(selectedData);
+    show(selector) {
+        const el = document.querySelector(selector);
+        if (el) el.classList.remove('hidden');
+    }
+
+    hide(selector) {
+        const el = document.querySelector(selector);
+        if (el) el.classList.add('hidden');
     }
 }
