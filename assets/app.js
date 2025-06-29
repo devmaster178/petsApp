@@ -7,4 +7,8 @@ import './bootstrap.js';
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
+// assets/app.js
+import 'select2/dist/css/select2.css';
+// import 'select2';
+
 import './styles/app.css';

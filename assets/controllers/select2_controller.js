@@ -1,0 +1,54 @@
+import { Controller } from '@hotwired/stimulus';
+import $ from 'jquery';
+import 'select2';
+
+export default class extends Controller {
+    static values = {
+        url: String,
+        placeholder: String
+    };
+
+    connect() {
+        this.initializeSelect2();
+    }
+
+    initializeSelect2() {
+        $(this.element).select2({
+            ajax: {
+                url: () => this.urlValue,
+                dataType: 'json',
+                delay: 250,
+                data: (params) => ({
+                    q: params.term,
+                    page: params.page || 1
+                }),
+                processResults: (data) => ({
+                    results: data.items,
+                    pagination: {
+                        more: data.hasMore
+                    }
+                }),
+                cache: true
+            },
+            placeholder: this.placeholderValue || 'Select an option',
+            minimumInputLength: 1,
+            width: '100%',
+            templateResult: (item) => item.loading ? item.text : `${item.text}`,
+            templateSelection: (item) => item.text
+        });
+    }
+
+    /**
+     * Force reload with the new url
+     */
+    reload() {
+        $(this.element).val(null).trigger('change');
+        $(this.element).select2('destroy');
+        this.initializeSelect2();
+    }
+
+    setUrl(newUrl) {
+        this.urlValue = newUrl;
+        this.reload();
+    }
+}

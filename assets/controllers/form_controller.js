@@ -10,8 +10,20 @@ import { Controller } from '@hotwired/stimulus';
  * Delete this file or adapt it for your use!
  */
 export default class extends Controller {
+    static targets = [ "type", "breed" ]
+
     connect() {
-        // this.element.textContent = 'Hello Stimulus! Edit me in assets/controllers/hello_controller.js';
         console.log("Hello, Stimulus!", this.element)
+    }
+
+    changeBreedUrl(){
+        const selectedPetType = this.typeTarget.value;
+        console.log(`Hello, ${selectedPetType}!`);
+        const select2Controller = this.application.getControllerForElementAndIdentifier(this.breedTarget, 'select2');
+        if (select2Controller && selectedPetType) {
+            const newUrl = `/api/cities?pet_type_id=${selectedPetType}`;
+            console.log(`newUrl: ${newUrl}`);
+            select2Controller.setUrl(newUrl);
+        }
     }
 }
