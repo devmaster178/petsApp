@@ -18,9 +18,6 @@ class Breed
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $code = null;
-
     #[ORM\ManyToOne(inversedBy: 'breeds')]
     #[ORM\JoinColumn(nullable: false)]
     private ?PetType $pet_type = null;

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\BreedChoiceEnum;
 use App\Enum\GenderEnum;
 use App\Repository\PetRepository;
 use Doctrine\DBAL\Types\Types;
@@ -37,14 +38,11 @@ class Pet
     #[ORM\Column(options: ['default' => false])]
     private ?bool $is_dangerous = false;
 
+    #[ORM\Column(nullable: true, enumType: BreedChoiceEnum::class)]
+    private ?BreedChoiceEnum $breed_choice = null;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $breed_other = null;
-
-    #[ORM\Column(options: ['default' => false])]
-    private ?bool $breed_mix = false;
-
-    #[ORM\Column(options: ['default' => false])]
-    private ?bool $breed_unknown = false;
 
     public function getId(): ?int
     {
@@ -148,26 +146,14 @@ class Pet
         return $this;
     }
 
-    public function isBreedMix(): ?bool
+    public function getBreedChoice(): ?bool
     {
-        return $this->breed_mix;
+        return $this->breed_choice;
     }
 
-    public function setBreedMix(bool $breed_mix): static
+    public function setChoice(bool $breed_choice): static
     {
-        $this->breed_mix = $breed_mix;
-
-        return $this;
-    }
-
-    public function isBreedUnknown(): ?bool
-    {
-        return $this->breed_unknown;
-    }
-
-    public function setBreedUnknown(bool $breed_unknown): static
-    {
-        $this->breed_unknown = $breed_unknown;
+        $this->breed_choice = $breed_choice;
 
         return $this;
     }

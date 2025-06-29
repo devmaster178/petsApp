@@ -1,10 +1,9 @@
 <?php
 namespace App\Form;
 
-namespace App\Form;
-
 use App\Entity\Pet;
 use App\Entity\PetType;
+use App\Enum\BreedChoiceEnum;
 use App\Enum\GenderEnum;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -14,14 +13,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use Symfony\Component\Validator\Constraints\Positive;
-use Symfony\Component\Intl\Intl;
 
 class PetForm extends AbstractType
 {
@@ -50,11 +45,13 @@ class PetForm extends AbstractType
                 'choices' => [],
                 'attr' => ['id' => 'breed-dropdown'],
             ])
-            ->add('breed_unknown', RadioType::class, [
-                'required' => false
-            ])
-            ->add('breed_mix', RadioType::class, [
-                'required' => false
+            ->add('breed_choice', EnumType::class, [
+                'class' => BreedChoiceEnum::class,
+                'choice_label' => function (BreedChoiceEnum $choice) {
+                    return $choice->getLabel();
+                },
+                'expanded' => true,
+                'multiple' => false,
             ])
             ->add('breed_other', TextType::class,[
                 'required' => false
