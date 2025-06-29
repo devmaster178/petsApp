@@ -28,6 +28,9 @@ class Pet
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTime $date_of_birth = null;
 
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?string $age = null;
+
     #[ORM\Column(nullable: true, enumType: GenderEnum::class)]
     private ?GenderEnum $sex = null;
 
@@ -95,6 +98,19 @@ class Pet
 
         return $this;
     }
+
+    public function getAge(): ?string
+    {
+        return $this->age;
+    }
+
+    public function setAge(string $name): static
+    {
+        $this->age = $name;
+
+        return $this;
+    }
+
 
     public function getSex(): ?GenderEnum
     {

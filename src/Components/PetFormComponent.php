@@ -1,86 +1,32 @@
 <?php
-// src/Components/DynamicFormComponent.php
 namespace App\Components;
 
+use App\Entity\Pet;
+use App\Form\PetForm;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
+use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Validator\Constraints as Assert;
 
-#[AsLiveComponent('pet_form')]
-class PetFormComponent
+#[AsLiveComponent('pet_form_component')]
+class PetFormComponent extends AbstractController
 {
     use DefaultActionTrait;
+    use ComponentWithFormTrait;
 
     #[LiveProp(writable: true)]
     public string $selectedType = '';
+    #[LiveProp]
+    public bool $formSubmitted = false;
+    #[LiveProp]
+    public bool $isSuccessful = false;
+    #[LiveProp]
+    public ?Pet $initialFormData = null;
 
-    #[LiveProp(writable: true)]
-    public array $formData = [];
-
-    public function getForm(): FormInterface
+    protected function instantiateForm(): FormInterface
     {
-        $formBuilder = $this->createFormBuilder($this->formData);
-
-        $formBuilder->add('type', ChoiceType::class, [
-            'choices' => [
-                'General Inquiry' => 'general',
-                'Support Request' => 'support',
-                'Billing Question' => 'billing',
-            ],
-            'constraints' => [
-                new Assert\NotBlank(),
-            ],
-        ]);
-
-        $formBuilder->add('name', TextType::class, [
-            'constraints' => [
-                new Assert\NotBlank(),
-                new Assert\Length(['min' => 2]),
-            ],
-        ]);
-
-        $formBuilder->add('email', EmailType::class, [
-            'constraints' => [
-                new Assert\NotBlank(),
-                new Assert\Email(),
-            ],
-        ]);
-
-        if ($this->selectedType === 'support') {
-            $formBuilder->add('product', TextType::class, [
-                'constraints' => [
-                    new Assert\NotBlank(),
-                ],
-            ]);
-        }
-
-        $formBuilder->add('message', TextareaType::class, [
-            'constraints' => [
-                new Assert\NotBlank(),
-                new Assert\Length(['min' => 10]),
-            ],
-        ]);
-
-        return $formBuilder->getForm();
-    }
-
-    #[LiveAction]
-    public function save()
-    {
-        $form = $this->getForm();
-        $form->submit($this->formData);
-
-        if ($form->isValid()) {
-            // Process valid form
-            // You can add flash message or redirect here
-        }
-
-        // Component will re-render with errors if any
+        return $this->createForm(PetForm::class, $this->initialFormData);
     }
 }
