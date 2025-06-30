@@ -61,6 +61,27 @@ export default class extends Controller {
         }else{
             this.hide('#breedsChoice');
         }
+        if(selectedData.is_dangerous){
+            this.showToolTip(selectedData.text,'#toolTip');
+        }else{
+            this.hideToolTip('#toolTip');
+        }
+    }
+
+    showToolTip(breed, selector){
+        const el = document.querySelector(selector);
+        if (el){
+            el.innerText = `${breed} is considered dangerous`;
+            el.classList.remove('hidden');
+        }
+    }
+
+    hideToolTip(selector) {
+        const el = document.querySelector(selector);
+        if (el){
+            el.innerText = "";
+            el.classList.add('hidden');
+        }
     }
 
 

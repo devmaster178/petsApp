@@ -15,6 +15,12 @@ export default class extends Controller {
 
     MIX = "mix";
 
+    connect() {
+        // this.breedsChoiceTarget.classList.add('hidden');
+        // const el = document.querySelector("#breedsChoice");
+        // if (el) el.classList.add('hidden');
+    }
+
     changeBreedUrl(){
         const selectedPetType = this.typeTarget.value;
         const select2Controller = this.application.getControllerForElementAndIdentifier(this.breedTarget, 'select2');
@@ -24,7 +30,7 @@ export default class extends Controller {
         }
     }
 
-    onDobChoiceChange(event){
+    onHasDobInformationChange(event){
         const { value } = event.target;
         if(value === this.YES){
             this.dateOfBirthTarget.classList.remove('hidden');

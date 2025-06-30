@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Enum\BreedChoiceEnum;
 use App\Enum\GenderEnum;
+use App\Enum\HasDobInformationEnum;
 use App\Repository\PetRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PetRepository::class)]
 class Pet
@@ -17,22 +19,48 @@ class Pet
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Pet name is required.")]
+    #[Assert\Length(
+        min: 2,
+        max: 20,
+        minMessage: "Pet name must be at least {{ limit }} characters long.",
+        maxMessage: "Pet name cannot be longer than {{ limit }} characters."
+    )]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'pets')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull(message: "Pet type is required")]
+    #[Assert\Valid]
     private ?PetType $type = null;
 
     #[ORM\ManyToOne(inversedBy: 'pets')]
-    private ?Breed $breed = null;
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Breed $breed;
+
+    #[ORM\Column(nullable: true, enumType: HasDobInformationEnum::class)]
+    #[Assert\Choice(callback: [HasDobInformationEnum::class, 'cases'])]
+    private ?HasDobInformationEnum $has_dob_information = null;
+
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\Expression(
+        "this.getDateOfBirth() !== null or this.getAge() !== null",
+        message: 'Date of birth is required.'
+    )]
     private ?\DateTime $date_of_birth = null;
 
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    #[Assert\Positive(message: "Invalid age value, enter a positive integer.")]
+    #[Assert\Range(min: 1, max: 20)]
+    #[Assert\Expression(
+        "this.getDateOfBirth() !== null or this.getAge() !== null",
+        message: 'Age is required.'
+    )]
     private ?string $age = null;
 
     #[ORM\Column(nullable: true, enumType: GenderEnum::class)]
+    #[Assert\Choice(callback: [GenderEnum::class, 'cases'])]
     private ?GenderEnum $sex = null;
 
     #[ORM\Column(options: ['default' => false])]
@@ -73,7 +101,7 @@ class Pet
         return $this;
     }
 
-    public function getBreed(): ?Breed
+    public function getBreed():?Breed
     {
         return $this->breed;
     }
@@ -146,15 +174,26 @@ class Pet
         return $this;
     }
 
-    public function getBreedChoice(): ?bool
+    public function getBreedChoice(): ?BreedChoiceEnum
     {
         return $this->breed_choice;
     }
 
-    public function setChoice(bool $breed_choice): static
+    public function setBreedChoice(BreedChoiceEnum $breed_choice): static
     {
         $this->breed_choice = $breed_choice;
 
+        return $this;
+    }
+
+    public function getHasDobInformation(): ?HasDobInformationEnum
+    {
+        return $this->has_dob_information;
+    }
+
+    public function setHasDobInformation(?HasDobInformationEnum $hasDobInformation): static
+    {
+        $this->has_dob_information = $hasDobInformation;
         return $this;
     }
 }

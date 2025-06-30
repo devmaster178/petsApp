@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PetController!{% endblock %}
+
+{% block body %}
+    {{
+        component('pet_form_component',{
+            form: form
+        })
+    }}
+{% endblock %}

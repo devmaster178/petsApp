@@ -2,11 +2,11 @@
     data-controller="form"
     class="w-full flex justify-center bg-gray-100 min-h-full">
         {{ form_start(form, {
+            action: '/api/pet/save',
             'attr': {
-                'class': 'w-2/4 p-6 mt-6 bg-white shadow-md rounded'
+                'class': 'w-2/4 p-6 mt-6 bg-white shadow-md rounded',
+                'novalidate': 'novalidate',
              },
-             'action': '/api/pet/save',
-             'method': 'POST'
            })
         }}
         <div class="relative mb-4">
@@ -23,18 +23,16 @@
             {{
                 form_widget(form.name, {
                     'attr': {
-                        'class': 'block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none' ~ (form.name.vars.errors|length ? ' border-red-500' : ''),
+                        'class': 'block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none',
                         'placeholder': 'Enter pet name...'
                     }
                 })
             }}
-            {{
-                form_errors(form.name, {
-                    'attr': {
-                        'class': 'mt-1 text-sm text-red-600'
-                    }
-                })
-            }}
+            <div class="mt-1 text-sm text-red-600">
+                {{
+                    form_errors(form.name)
+                }}
+            </div>
         </div>
     <div class="relative mb-4">
         {{ form_label(form.type, 'Select Pet Type', {
@@ -51,7 +49,9 @@
             },
             'placeholder': 'Choose a pet type...'
         }) }}
-        {{ form_errors(form.type) }}
+        <div class="mt-1 text-sm text-red-600">
+            {{ form_errors(form.type) }}
+        </div>
     </div>
     <div class="relative mb-4">
         {{
@@ -70,11 +70,15 @@
                     'data-select2-url-value':"/api/breeds",
                     'data-select2-placeholder-value':"Search for a breed",
                     'data-form-target':'breed',
-                    'data-action': '"select2:select"->select2#onSelect "select2:unselect"->select2#onUnselect'
+                    'data-action': '"select2:select"->select2#onSelect'
                 }
             })
         }}
+        <div id="toolTip" class="mt-1 text-sm text-lime-700 hidden"></div>
+        <div class="mt-1 text-sm text-red-600">
+            {{ form_errors(form.breed) }}
         </div>
+    </div>
         <div id="breedsChoice"  class="relative mb-4 px-8 hidden">
             <p class="mb-2 text-gray-600 text-sm font-medium">Choose one</p>
             {% for child in form.breed_choice %}
@@ -96,6 +100,10 @@
                     }}
                 </div>
             {% endfor %}
+            <div class="mt-1 text-sm text-red-600">
+                {{ form_errors(form.breed_choice) }}
+            </div>
+
             <div data-form-target="breedOther" class="items-center mt-3 hidden">
                 {{
                     form_widget(form.breed_other,{
@@ -107,7 +115,7 @@
                 }}
             </div>
         </div>
-        <div class="relative mb-4 space-y-2">
+        <div class="relative space-y-2 mb-4">
             <p class="text-sm font-medium text-gray-600">What gender are they?</p>
             <div class="inline-flex rounded-md shadow-sm" role="group">
                 {% for child in form.sex %}
@@ -127,21 +135,25 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="relative mb-4 space-y-2">
-            <p class="text-sm font-medium text-gray-600">Do you know their date of birth?</p>
-            <div class="inline-flex rounded-md shadow-sm" role="group">
-                <label class="inline-flex items-center">
-                    <input data-action="change->form#onDobChoiceChange"  type="radio" name="dob_choice" value="yes" class="hidden peer" checked>
-                    <span class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-50 peer-checked:bg-blue-400 peer-checked:text-white peer-checked:border-blue-500 peer-checked:z-10">
-                        Yes
-                    </span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input data-action="change->form#onDobChoiceChange" type="radio" name="dob_choice" value="no" class="hidden peer">
-                    <span class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-r-lg hover:bg-gray-50 peer-checked:bg-blue-400 peer-checked:text-white peer-checked:border-blue-500 peer-checked:z-10">
-                        No
-                    </span>
-                </label>
+        <div class="relative space-y-2 mb-4">
+        <p class="text-sm font-medium text-gray-600">Do you know their date of birth?</p>
+        <div class="inline-flex rounded-md shadow-sm" role="group">
+                {% for child in form.has_dob_information %}
+                    <label class="inline-flex items-center">
+                        {{ form_widget(child, {
+                            attr: {
+                                'class': 'hidden peer',
+                                'data-action': 'change->form#onHasDobInformationChange'
+                            }
+                        }) }}
+                        <span class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 peer-checked:bg-blue-400 peer-checked:text-white peer-checked:border-blue-500 peer-checked:z-10
+                                {{ loop.first ? 'rounded-l-lg' : '' }}
+                                {{ loop.last ? 'rounded-r-lg' : (not loop.first and not loop.last) ? 'border-l-0' : '' }}
+                            ">
+                                {{ child.vars.label }}
+                            </span>
+                    </label>
+                {% endfor %}
             </div>
         </div>
         <div data-form-target="approximateAge" class="relative mb-4 hidden">
@@ -210,6 +222,10 @@
                 </div>
             </div>
         </div>
+        <div class="mt-1 mb-4 text-sm text-red-600">
+            {{ form_errors(form.date_of_birth) }}
+        </div>
+
         <div class="flex justify-center">
             <button class="w-52 h-11 shadow-sm rounded-md bg-blue-600 hover:bg-blue-800 transition-all duration-700 text-white text-base font-semibold leading-7">Continue</button>
         </div>
