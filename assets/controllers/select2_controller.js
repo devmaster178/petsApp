@@ -8,6 +8,8 @@ export default class extends Controller {
         placeholder: String
     };
 
+    UNKNOWN = "Can't find it?";
+
     connect() {
         const select2 = this.initializeSelect2();
         select2.on('select2:select', this.onSelect.bind(this));
@@ -56,7 +58,7 @@ export default class extends Controller {
 
     onSelect(event) {
         const selectedData = event.params.data;
-        if(!selectedData.id){
+        if(selectedData.text === this.UNKNOWN) {
             this.show('#breedsChoice');
         }else{
             this.hide('#breedsChoice');

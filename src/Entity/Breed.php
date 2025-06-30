@@ -8,10 +8,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BreedRepository::class)]
+#[ORM\Index(fields: ["name"])]
 class Breed
 {
-
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -21,7 +20,7 @@ class Breed
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'breeds')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?PetType $pet_type = null;
 
     #[ORM\Column(options: ['default' => false])]

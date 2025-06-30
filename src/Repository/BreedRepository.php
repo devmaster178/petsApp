@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Breed;
+use App\Service\BreedService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -36,10 +37,18 @@ class BreedRepository extends ServiceEntityRepository
                 ->setParameter('typeId', $petTypeId);
         }
 
+        $qb->andWhere('breeds.name != :value')
+            ->setParameter('value', BreedService::UNKNOWN);
+
+
         return $qb->getQuery()
             ->getResult();
     }
 
+    /**
+     * @param $filter
+     * @return int
+     */
     public function countBreedsBy($filter): int{
         $qb = $this->createQueryBuilder('breeds')
             ->select('count(breeds.id)')
@@ -55,6 +64,9 @@ class BreedRepository extends ServiceEntityRepository
                 }
             }
         }
+        $qb->andWhere('breeds.name != :value')
+            ->setParameter('value', BreedService::UNKNOWN);
+
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
 }

@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 class BreedService{
 
     const DEFAULT_LIMIT = 10;
+
+    const UNKNOWN = "Can't find it?";
+
     public function __construct(private readonly BreedRepository $breedRepository){}
 
     public function getBreeds(Request $request): array
@@ -22,6 +25,14 @@ class BreedService{
             'pet_type' => $petTypeId,
             'name' => $searchValue
         ]);
+        if($total === 0){
+           $unKnownBreed = $this->breedRepository->findOneBy([
+               'name' => self::UNKNOWN,
+           ]);
+           if($unKnownBreed){
+               $breeds = [$unKnownBreed];
+           }
+        }
         return [
             'items' => BreedResource::collection($breeds),
             'hasMore' => $total > ($offset + $limit),
