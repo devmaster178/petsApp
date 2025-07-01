@@ -1,10 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-    static values = {
-        storageKey: { type: String, default: "select2-session-value" }
-    }
-
     static targets = [
         "type",
         "breed",
