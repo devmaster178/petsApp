@@ -22,22 +22,23 @@ final class PetController extends AbstractController
         return $this->render('pet/register.html.twig');
     }
 
-    #[Route('/summary', name: 'app_pet_index', methods: ['GET'])]
+    #[Route('/pet/summary', name: 'app_pet_summary', methods: ['GET'])]
     public function summary(): Response
     {
         $data = $this->petService->summary();
         return $this->render('pet/index.html.twig', $data);
     }
 
-    #[Route('/api/pet/save', name: 'save_pet', methods: ['POST'])]
-    public function registerPet(Request $request, EntityManagerInterface $entityManager): RedirectResponse|Response
+    #[Route('/pet/save', name: 'save_pet', methods: ['POST'])]
+    public function save(Request $request): RedirectResponse|Response
     {
         $pet = new Pet();
         $form = $this->createForm(PetFormType::class, $pet);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->petService->registerPet($request, $pet);
-            return $this->redirectToRoute('app_get_breeds', [], Response::HTTP_SEE_OTHER);
+            $this->petService->save($request, $pet);
+            $this->addFlash('success', 'Pet registered successfully!');
+            return $this->redirectToRoute('app_pet_summary', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('pet/register_feedback.html.twig', [
             'pet' => $pet,

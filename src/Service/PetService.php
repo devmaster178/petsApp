@@ -36,7 +36,7 @@ class PetService{
      * @param Pet $pet
      * @return void
      */
-    public function registerPet(Request $request, Pet $pet): void
+    public function save(Request $request, Pet $pet): void
     {
         $this->petRepository->save($pet,true);
     }

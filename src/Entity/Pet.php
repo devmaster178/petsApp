@@ -9,6 +9,7 @@ use App\Repository\PetRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: PetRepository::class)]
 class Pet
@@ -35,28 +36,19 @@ class Pet
     private ?PetType $type = null;
 
     #[ORM\ManyToOne(inversedBy: 'pets')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull(message: "Breed is required")]
+    #[Assert\Valid]
     private ?Breed $breed;
 
     #[ORM\Column(nullable: true, enumType: HasDobInformationEnum::class)]
     #[Assert\Choice(callback: [HasDobInformationEnum::class, 'cases'])]
     private ?HasDobInformationEnum $has_dob_information = null;
 
-
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    #[Assert\Expression(
-        "this.getDateOfBirth() !== null or this.getAge() !== null",
-        message: 'Date of birth is required.'
-    )]
     private ?\DateTime $date_of_birth = null;
 
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
-    #[Assert\Positive(message: "Invalid age value, enter a positive integer.")]
-    #[Assert\Range(min: 1, max: 20)]
-    #[Assert\Expression(
-        "this.getDateOfBirth() !== null or this.getAge() !== null",
-        message: 'Age is required.'
-    )]
     private ?string $age = null;
 
     #[ORM\Column(nullable: true, enumType: GenderEnum::class)]

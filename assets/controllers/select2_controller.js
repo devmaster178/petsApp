@@ -1,6 +1,7 @@
 import {Controller} from '@hotwired/stimulus';
 import $ from 'jquery';
 import 'select2';
+import {getComponent} from "@symfony/ux-live-component";
 
 export default class extends Controller {
     static values = {

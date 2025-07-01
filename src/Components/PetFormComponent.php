@@ -5,6 +5,7 @@ use App\Entity\Pet;
 use App\Form\PetFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
+use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
@@ -15,10 +16,7 @@ class PetFormComponent extends AbstractController
 {
     use DefaultActionTrait;
     use ComponentWithFormTrait;
-
-    #[LiveProp]
-    public bool $isSuccessful = false;
-    #[LiveProp]
+    #[LiveProp(writable: true)]
     public ?Pet $initialFormData = null;
 
     protected function instantiateForm(): FormInterface

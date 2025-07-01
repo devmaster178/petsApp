@@ -39,7 +39,6 @@ export default class extends Controller {
 
     onBreedChoiceChange(event){
         const { value } = event.target;
-
         if(value === this.MIX){
             this.breedOtherTarget.classList.add('flex');
             this.breedOtherTarget.classList.remove('hidden');
