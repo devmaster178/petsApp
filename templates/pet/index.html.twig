@@ -1,0 +1,6 @@
+{% extends 'base.html.twig' %}
+{% block title %}Pets Summary{% endblock %}
+
+{% block body %}
+    <twig:PetTableComponent :petTypes="petTypes" />
+{% endblock %}

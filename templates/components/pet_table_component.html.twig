@@ -1,0 +1,148 @@
+<div {{ attributes }}
+    class="w-full mt-6 bg-gray-100 px-32">
+    <div>
+        <div class="w-full flex justify-between mb-2 overflow-x-scroll">
+            <div>
+                <div class="relative max-w-md mx-auto">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <input
+                        type="text"
+                        placeholder="Search pets..."
+                        data-action="live#action"
+                        data-live-action-param="resetPage"
+                        data-model="searchQuery"
+                        data-model-debounce="300"
+                        class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none sm:text-sm"
+                    />
+                </div>
+            </div>
+            <div>
+                <select
+                    data-action="live#action"
+                    data-live-action-param="resetPage"
+                    data-model="selectedPetType"
+                    class="rounded-md px-2 py-2 text-gray-400 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-none"
+                >
+                    <option value="">Select Pet Type</option>
+                    {%  for type in petTypes %}
+                        <option value="{{ type.id }}" {% if this.selectedPetType == type.id %}selected{% endif %}>{{ type.name }}</option>
+                    {% endfor %}
+                </select>
+                <select
+                    data-action="live#action"
+                    data-live-action-param="resetPage"
+                    data-model="on(change)|itemsPerPage"
+                    class="rounded-md px-2 py-2 text-gray-400 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-none"
+                >
+                    <option value="5" {% if this.itemsPerPage == 5 %}selected{% endif %}>5 per page</option>
+                    <option value="10" {% if this.itemsPerPage == 10 %}selected{% endif %}>10 per page</option>
+                    <option value="25" {% if this.itemsPerPage == 25 %}selected{% endif %}>25 per page</option>
+                </select>
+            </div>
+        </div>
+        <div class="overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        ID
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Name
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Pet Type
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Breed
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Date of Birth
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Sex
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Is Dangerous Animal
+                    </th>
+                </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                {% for pet in this.pets.currentPageResults %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{pet.id}}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ pet.name }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ pet.type.name }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ pet.breed.name is same as("Can't find it?") ? "" : pet.breed.name }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ pet.dateOfBirth|date('Y-m-d') }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ pet.sex.value }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500 text-sm font-medium">
+                            {{ pet.isDangerous() is same as(true) ? 'Yes' : 'No' }}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr class="hover:bg-gray-50 text-center">
+                        <td class="px-6 py-4 whitespace-nowrap" colspan="7">No pets found.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-2 inline-block">
+            {% set pager = this.pets %}
+            <nav class="isolate inline-flex -space-x-px rounded-md shadow-xs" aria-label="Pagination">
+                <button
+                    data-action="live#action"
+                    data-live-action-param="previousPage"
+                    {% if not pager.hasPreviousPage %}disabled{% endif %}
+                    class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                    <span class="sr-only">Previous</span>
+                    <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                        <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+                {% for page in 1..pager.nbPages %}
+                    <button
+                        type="button"
+                        data-action="live#action"
+                        data-live-action-param="goToPage"
+                        data-live-page-param="{{ page }}"
+                        {% if page == pager.currentPage %}
+                            class="relative z-10 inline-flex items-center bg-white px-4 py-2 text-sm font-semibold text-gray focus:z-20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
+                        {% else %}
+                            class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                        {% endif %}
+                        aria-current="page"
+                     >{{ page }}</button>
+                {% endfor %}
+                <button
+                    type="button"
+                    data-action="live#action"
+                    data-live-action-param="nextPage"
+                    {% if not pager.hasNextPage %}disabled{% endif %}
+                    class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                    <span class="sr-only">Next</span>
+                    <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                        <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </nav>
+        </div>
+    </div>
+</div>

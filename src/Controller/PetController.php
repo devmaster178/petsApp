@@ -17,9 +17,16 @@ final class PetController extends AbstractController
     public function __construct(private PetService $petService){}
 
     #[Route('/', name: 'app_pet')]
-    public function index(): Response
+    public function register(): Response
     {
         return $this->render('pet/register.html.twig');
+    }
+
+    #[Route('/summary', name: 'app_pet_index', methods: ['GET'])]
+    public function summary(): Response
+    {
+        $data = $this->petService->summary();
+        return $this->render('pet/index.html.twig', $data);
     }
 
     #[Route('/api/pet/save', name: 'save_pet', methods: ['POST'])]

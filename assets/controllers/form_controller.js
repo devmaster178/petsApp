@@ -15,12 +15,6 @@ export default class extends Controller {
 
     MIX = "mix";
 
-    connect() {
-        // this.breedsChoiceTarget.classList.add('hidden');
-        // const el = document.querySelector("#breedsChoice");
-        // if (el) el.classList.add('hidden');
-    }
-
     changeBreedUrl(){
         const selectedPetType = this.typeTarget.value;
         const select2Controller = this.application.getControllerForElementAndIdentifier(this.breedTarget, 'select2');
