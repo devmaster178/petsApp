@@ -81,19 +81,19 @@
                             {{ pet.name }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ pet.type.name }}
+                            {{ pet.type ? pet.type.name : "" }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ pet.breed.name is same as("Can't find it?") ? "" : pet.breed.name }}
+                            {{ pet.breed and pet.breed.name is same as("Can't find it?") ? "" : pet.breed.name }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ pet.dateOfBirth|date('Y-m-d') }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ pet.sex.value }}
+                            {{ pet.sex ? pet.sex.value : "" }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-gray-500 text-sm font-medium">
-                            {{ pet.isDangerous() is same as(true) ? 'Yes' : 'No' }}
+                            {{ pet.breed and pet.breed.isDangerous ? 'Yes' : 'No' }}
                         </td>
                     </tr>
                 {% else %}

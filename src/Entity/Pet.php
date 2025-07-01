@@ -9,7 +9,6 @@ use App\Repository\PetRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: PetRepository::class)]
 class Pet
@@ -36,9 +35,7 @@ class Pet
     private ?PetType $type = null;
 
     #[ORM\ManyToOne(inversedBy: 'pets')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotNull(message: "Breed is required")]
-    #[Assert\Valid]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Breed $breed;
 
     #[ORM\Column(nullable: true, enumType: HasDobInformationEnum::class)]
@@ -54,9 +51,6 @@ class Pet
     #[ORM\Column(nullable: true, enumType: GenderEnum::class)]
     #[Assert\Choice(callback: [GenderEnum::class, 'cases'])]
     private ?GenderEnum $sex = null;
-
-    #[ORM\Column(options: ['default' => false])]
-    private ?bool $is_dangerous = false;
 
     #[ORM\Column(nullable: true, enumType: BreedChoiceEnum::class)]
     private ?BreedChoiceEnum $breed_choice = null;
@@ -138,18 +132,6 @@ class Pet
     public function setSex(?GenderEnum $sex): static
     {
         $this->sex = $sex;
-
-        return $this;
-    }
-
-    public function isDangerous(): ?bool
-    {
-        return $this->is_dangerous;
-    }
-
-    public function setIsDangerous(bool $is_dangerous): static
-    {
-        $this->is_dangerous = $is_dangerous;
 
         return $this;
     }

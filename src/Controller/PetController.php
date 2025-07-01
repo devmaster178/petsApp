@@ -36,7 +36,7 @@ final class PetController extends AbstractController
         $form = $this->createForm(PetFormType::class, $pet);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->petService->save($request, $pet);
+            $this->petService->save($pet);
             $this->addFlash('success', 'Pet registered successfully!');
             return $this->redirectToRoute('app_pet_summary', [], Response::HTTP_SEE_OTHER);
         }

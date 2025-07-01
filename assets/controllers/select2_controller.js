@@ -1,12 +1,11 @@
 import {Controller} from '@hotwired/stimulus';
 import $ from 'jquery';
 import 'select2';
-import {getComponent} from "@symfony/ux-live-component";
 
 export default class extends Controller {
     static values = {
         url: String,
-        placeholder: String
+        placeholder: String,
     };
 
     UNKNOWN = "Can't find it?";
@@ -14,6 +13,12 @@ export default class extends Controller {
     connect() {
         const select2 = this.initializeSelect2();
         select2.on('select2:select', this.onSelect.bind(this));
+    }
+
+    disconnect() {
+        if ($(this.element).data('select2')) {
+            $(this.element).select2('destroy');
+        }
     }
 
     initializeSelect2() {
@@ -69,6 +74,10 @@ export default class extends Controller {
         }else{
             this.hideToolTip('#toolTip');
         }
+    }
+
+    setSelectedValue(value){
+        $(this.element).val(value).trigger('change');
     }
 
     showToolTip(breed, selector){

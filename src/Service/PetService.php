@@ -5,9 +5,9 @@ namespace App\Service;
 use App\Entity\Pet;
 use App\Repository\PetRepository;
 use App\Repository\PetTypeRepository;
+use DateTime;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
-use Symfony\Component\HttpFoundation\Request;
 
 class PetService{
 
@@ -16,6 +16,20 @@ class PetService{
         private readonly PetTypeRepository $petTypeRepository,
     ){}
 
+    /**
+     * @param string $dob
+     * @return int|string|null
+     */
+    protected function calculateAge(string $dob): int|string|null {
+        try {
+            $birthDate = new DateTime($dob);
+            $currentDate = new DateTime();
+        } catch (\Exception $e) {
+            return null;
+        }
+        $interval = $birthDate->diff($currentDate);
+        return $interval->y;
+    }
 
     /**
      * @return array
@@ -31,16 +45,30 @@ class PetService{
         ];
     }
 
+
     /**
-     * @param Request $request
      * @param Pet $pet
      * @return void
      */
-    public function save(Request $request, Pet $pet): void
+    public function save(Pet $pet): void
     {
+        $dob = $pet->getDateOfBirth();
+        if($dob){
+            $age = $this->calculateAge($dob->format('Y-m-d'));
+            if($age){
+                $pet->setAge($age);
+            }
+        }
         $this->petRepository->save($pet,true);
     }
 
+    /**
+     * @param $currentPage
+     * @param $itemsPerPage
+     * @param $searchQuery
+     * @param $selectedPetType
+     * @return Pagerfanta
+     */
     public function getPets($currentPage, $itemsPerPage, $searchQuery, $selectedPetType,): Pagerfanta
     {
         $queryBuilder = $this->petRepository->createQueryBuilder('p');
