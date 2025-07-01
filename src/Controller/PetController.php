@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Pet;
 use App\Form\PetFormType;
 use App\Service\PetService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

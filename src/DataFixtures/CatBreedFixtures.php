@@ -55,15 +55,13 @@ class CatBreedFixtures extends Fixture implements DependentFixtureInterface{
         'Turkish Angora',
         'Turkish Van'
     ];
-
-    public function __construct(private readonly LoggerInterface $logger) {}
+    public function __construct() {}
     public function load(ObjectManager $manager): void{
         $petTypeRepository = $manager->getRepository(PetType::class);
         $existingCatPetType = $petTypeRepository->findOneBy([ 'name' => PetTypeEnum::CAT->value ]);
         if ($existingCatPetType) {
             $breedTypeRepository = $manager->getRepository(Breed::class);
             $existingBreedCount = $breedTypeRepository->count(['pet_type' => $existingCatPetType->getId()]);
-            $this->logger->info("CatBreed Count: {$existingBreedCount}");
             if ($existingBreedCount > 0) {
                 return;
             }

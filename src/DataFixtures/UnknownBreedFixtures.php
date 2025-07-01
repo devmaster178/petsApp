@@ -9,13 +9,12 @@ use Psr\Log\LoggerInterface;
 
 class UnknownBreedFixtures extends Fixture{
 
-    public function __construct(private readonly LoggerInterface $logger){}
+    public function __construct(){}
     public function load(ObjectManager $manager): void{
         $breed = new Breed();
         $breed->setName(BreedService::UNKNOWN);
         $breed->setIsDangerous(false);
         $manager->persist($breed);
         $manager->flush();
-        $this->logger->info("unknown breed: " . json_encode($breed));
     }
 }

@@ -21,7 +21,7 @@ export default class extends Controller {
         const selectedPetType = this.typeTarget.value;
         const select2Controller = this.application.getControllerForElementAndIdentifier(this.breedTarget, 'select2');
         if (select2Controller && selectedPetType) {
-            const newUrl= `/api/breeds?pet_type_id=${selectedPetType}`;
+            const newUrl= `/breeds?pet_type_id=${selectedPetType}`;
             select2Controller.setUrl(newUrl);
         }
     }

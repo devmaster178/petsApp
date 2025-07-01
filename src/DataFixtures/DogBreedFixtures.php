@@ -7,7 +7,6 @@ use App\Enum\PetTypeEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Psr\Log\LoggerInterface;
 
 class DogBreedFixtures extends Fixture implements DependentFixtureInterface{
 
@@ -49,14 +48,13 @@ class DogBreedFixtures extends Fixture implements DependentFixtureInterface{
         "Mastiff"
     ];
 
-    public function __construct(private readonly LoggerInterface $logger){}
+    public function __construct(){}
     public function load(ObjectManager $manager): void{
         $petTypeRepository = $manager->getRepository(PetType::class);
         $existingDogPetType = $petTypeRepository->findOneBy([ 'name' => PetTypeEnum::DOG->value ]);
         if ($existingDogPetType) {
             $breedTypeRepository = $manager->getRepository(Breed::class);
             $existingBreedCount = $breedTypeRepository->count(['pet_type' => $existingDogPetType->getId()]);
-            $this->logger->info("DogBreed Count: {$existingBreedCount}");
             if ($existingBreedCount > 0) {
                 return;
             }
