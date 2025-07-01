@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PetRepository::class)]
+#[ORM\Index(fields: ["name"])]
 class Pet
 {
     #[ORM\Id]
