@@ -40,7 +40,7 @@ Make sure that you have docker installed on your pc.
 - Make sure the project is up and running on docker.
 - Create the test database with this command:
   ```sh
-  docker compose exec php bin/console --env=test doctrine:database:create
+    docker compose exec php bin/console --env=test doctrine:database:create
   ```
 - Create all schemas and tables for the test environment with this command
   ```sh
