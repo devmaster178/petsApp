@@ -27,12 +27,12 @@ class BreedRepository extends ServiceEntityRepository
             ->setMaxResults($limit)
             ->setFirstResult($offset);
 
-        if ($searchValue !== null) {
+        if (null !== $searchValue) {
             $qb->andWhere('breeds.name LIKE :val')
-                ->setParameter('val', '%' . $searchValue . '%');
+                ->setParameter('val', '%'.$searchValue.'%');
         }
 
-        if ($petTypeId !== null) {
+        if (null !== $petTypeId) {
             $qb->andWhere('breeds.pet_type = :typeId')
                 ->setParameter('typeId', $petTypeId);
         }
@@ -40,27 +40,23 @@ class BreedRepository extends ServiceEntityRepository
         $qb->andWhere('breeds.name != :value')
             ->setParameter('value', BreedService::UNKNOWN);
 
-
         return $qb->getQuery()
             ->getResult();
     }
 
-    /**
-     * @param $filter
-     * @return int
-     */
-    public function countBreedsBy($filter): int{
+    public function countBreedsBy($filter): int
+    {
         $qb = $this->createQueryBuilder('breeds')
             ->select('count(breeds.id)')
             ->join('breeds.pet_type', 'pet_types');
         foreach ($filter as $field => $value) {
-            if($value){
-                if(trim($field) == "pet_type"){
-                    $qb->andWhere('pet_types.id = :' . $field)
+            if ($value) {
+                if ('pet_type' == trim($field)) {
+                    $qb->andWhere('pet_types.id = :'.$field)
                         ->setParameter($field, $value);
-                }else{
-                    $qb->andWhere('breeds.'. $field .' LIKE :' . $field)
-                        ->setParameter($field, '%' . $value . '%');
+                } else {
+                    $qb->andWhere('breeds.'.$field.' LIKE :'.$field)
+                        ->setParameter($field, '%'.$value.'%');
                 }
             }
         }

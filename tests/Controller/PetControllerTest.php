@@ -22,6 +22,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 final class PetControllerTest extends WebTestCase
 {
@@ -124,7 +125,7 @@ final class PetControllerTest extends WebTestCase
         $form = $crawler->selectButton('Continue')->form();
         $this->client->submit($form, $formData);
 
-        if ($this->client->getResponse()->getStatusCode() !== 302) {
+        if ($this->client->getResponse()->getStatusCode() !== Response::HTTP_SEE_OTHER) {
             echo $this->client->getResponse()->getContent();
         }
 

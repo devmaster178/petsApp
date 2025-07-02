@@ -1,14 +1,15 @@
 <?php
+
 namespace App\Components;
 
 use App\Entity\Pet;
 use App\Form\PetFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
+use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
-use Symfony\UX\LiveComponent\Attribute\LiveProp;
-use Symfony\Component\Form\FormInterface;
 
 #[AsLiveComponent('pet_form_component')]
 class PetFormComponent extends AbstractController

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\DataFixtures;
 
 use App\Entity\Breed;
@@ -7,10 +8,9 @@ use App\Enum\PetTypeEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Psr\Log\LoggerInterface;
 
-class CatBreedFixtures extends Fixture implements DependentFixtureInterface{
-
+class CatBreedFixtures extends Fixture implements DependentFixtureInterface
+{
     private $catBreeds = [
         'Abyssinian',
         'American Bobtail',
@@ -53,12 +53,17 @@ class CatBreedFixtures extends Fixture implements DependentFixtureInterface{
         'Sphynx',
         'Tonkinese',
         'Turkish Angora',
-        'Turkish Van'
+        'Turkish Van',
     ];
-    public function __construct() {}
-    public function load(ObjectManager $manager): void{
+
+    public function __construct()
+    {
+    }
+
+    public function load(ObjectManager $manager): void
+    {
         $petTypeRepository = $manager->getRepository(PetType::class);
-        $existingCatPetType = $petTypeRepository->findOneBy([ 'name' => PetTypeEnum::CAT->value ]);
+        $existingCatPetType = $petTypeRepository->findOneBy(['name' => PetTypeEnum::CAT->value]);
         if ($existingCatPetType) {
             $breedTypeRepository = $manager->getRepository(Breed::class);
             $existingBreedCount = $breedTypeRepository->count(['pet_type' => $existingCatPetType->getId()]);
