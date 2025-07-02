@@ -6,11 +6,11 @@ Amazing Pets is a Symfony application to process Pets registration.
 Make sure that you have docker installed on your pc.
 - From the terminal, clone the repository with the following command.
   ```sh
-    git clone https://github.com/devmaster178/pets-app.git
+    git clone https://github.com/devmaster178/petsApp.git
   ```
 - Change to the project directory
   ```sh
-    cd pets-app
+    cd petsApp
   ```
 
 - Open the `.env` file, and set your mysql database url, replace the `<?username>` and `<?password>` with your database username and password.   
