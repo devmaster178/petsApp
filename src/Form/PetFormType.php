@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Form;
 
 use App\Entity\Breed;
@@ -9,13 +10,12 @@ use App\Enum\GenderEnum;
 use App\Enum\HasDobInformationEnum;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
-
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PetFormType extends AbstractType
 {
@@ -29,11 +29,11 @@ class PetFormType extends AbstractType
                 'placeholder' => 'Select a pet type',
             ])
             ->add('breed', EntityType::class, [
-                    'class' => Breed::class,
-                    'choice_label' => 'name',
-                    'placeholder' => 'Choose a breed'
+                'class' => Breed::class,
+                'choice_label' => 'name',
+                'placeholder' => 'Choose a breed',
             ])
-            ->add('breed_choice', EnumType::class, [ //depends on if can't find it was breed
+            ->add('breed_choice', EnumType::class, [ // depends on if can't find it was breed
                 'class' => BreedChoiceEnum::class,
                 'choice_label' => function (BreedChoiceEnum $choice) {
                     return $choice->getLabel();
@@ -41,10 +41,10 @@ class PetFormType extends AbstractType
                 'expanded' => true,
                 'multiple' => false,
                 'required' => false,
-                'placeholder' => null
+                'placeholder' => null,
             ])
-            ->add('breed_other', TextType::class,[ //depends on mix breed_choice
-                'required' => false
+            ->add('breed_other', TextType::class, [ // depends on mix breed_choice
+                'required' => false,
             ])
             ->add('sex', EnumType::class, [
                 'class' => GenderEnum::class,
@@ -54,18 +54,18 @@ class PetFormType extends AbstractType
                 'expanded' => true,
                 'multiple' => false,
                 'required' => false,
-                'placeholder' => null
+                'placeholder' => null,
             ])
             ->add('has_dob_information', EnumType::class, [
-                    'class' => HasDobInformationEnum::class,
-                    'choice_label' => function (HasDobInformationEnum $choice) {
-                        return $choice->getLabel();
-                    },
-                    'expanded' => true,
-                    'multiple' => false,
-                    'required' => false,
-                    'placeholder' => null,
-                    'data' => HasDobInformationEnum::YES
+                'class' => HasDobInformationEnum::class,
+                'choice_label' => function (HasDobInformationEnum $choice) {
+                    return $choice->getLabel();
+                },
+                'expanded' => true,
+                'multiple' => false,
+                'required' => false,
+                'placeholder' => null,
+                'data' => HasDobInformationEnum::YES,
             ])
             ->add('age', ChoiceType::class, [
                 'required' => false,
@@ -79,7 +79,7 @@ class PetFormType extends AbstractType
                 'placeholder' => [
                     'year' => 'yyyy',
                     'month' => 'Select',
-                    'day' => 'dd'
+                    'day' => 'dd',
                 ],
                 'choice_translation_domain' => true,
                 'by_reference' => false,
@@ -92,6 +92,4 @@ class PetFormType extends AbstractType
             'data_class' => Pet::class,
         ]);
     }
-
-
 }

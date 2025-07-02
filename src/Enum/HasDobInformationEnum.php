@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Enum;
+
 enum HasDobInformationEnum: string
 {
     case YES = 'yes';
@@ -8,7 +9,7 @@ enum HasDobInformationEnum: string
 
     public function getLabel(): string
     {
-        return match($this) {
+        return match ($this) {
             self::YES => 'Yes',
             self::NO => 'No',
         };

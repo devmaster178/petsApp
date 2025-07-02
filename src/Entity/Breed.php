@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BreedRepository::class)]
-#[ORM\Index(fields: ["name"])]
+#[ORM\Index(fields: ['name'])]
 class Breed
 {
     #[ORM\Id]
@@ -53,7 +53,6 @@ class Breed
 
         return $this;
     }
-
 
     public function getPetType(): ?PetType
     {
@@ -108,6 +107,4 @@ class Breed
 
         return $this;
     }
-
-
 }

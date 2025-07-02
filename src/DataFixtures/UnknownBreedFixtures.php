@@ -1,16 +1,20 @@
 <?php
+
 namespace App\DataFixtures;
 
 use App\Entity\Breed;
 use App\Service\BreedService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Psr\Log\LoggerInterface;
 
-class UnknownBreedFixtures extends Fixture{
+class UnknownBreedFixtures extends Fixture
+{
+    public function __construct()
+    {
+    }
 
-    public function __construct(){}
-    public function load(ObjectManager $manager): void{
+    public function load(ObjectManager $manager): void
+    {
         $breed = new Breed();
         $breed->setName(BreedService::UNKNOWN);
         $breed->setIsDangerous(false);

@@ -13,7 +13,9 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class PetController extends AbstractController
 {
-    public function __construct(private PetService $petService){}
+    public function __construct(private PetService $petService)
+    {
+    }
 
     #[Route('/', name: 'app_pet')]
     public function register(): Response
@@ -25,6 +27,7 @@ final class PetController extends AbstractController
     public function summary(): Response
     {
         $data = $this->petService->summary();
+
         return $this->render('pet/index.html.twig', $data);
     }
 
@@ -37,8 +40,10 @@ final class PetController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->petService->save($pet);
             $this->addFlash('success', 'Pet registered successfully!');
+
             return $this->redirectToRoute('app_pet_summary', [], Response::HTTP_SEE_OTHER);
         }
+
         return $this->render('pet/register_feedback.html.twig', [
             'pet' => $pet,
             'form' => $form,

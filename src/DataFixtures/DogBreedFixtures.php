@@ -1,4 +1,5 @@
 <?php
+
 namespace App\DataFixtures;
 
 use App\Entity\Breed;
@@ -8,50 +9,54 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class DogBreedFixtures extends Fixture implements DependentFixtureInterface{
-
+class DogBreedFixtures extends Fixture implements DependentFixtureInterface
+{
     private $dogBreeds = [
-        "Labrador Retriever",
-        "German Shepherd",
-        "Golden Retriever",
-        "Bulldog",
-        "Beagle",
-        "Poodle",
-        "Rottweiler",
-        "Yorkshire Terrier",
-        "Boxer",
-        "Dachshund",
-        "Siberian Husky",
-        "Great Dane",
-        "Doberman Pinscher",
-        "Shih Tzu",
-        "Australian Shepherd",
-        "Chihuahua",
-        "Pomeranian",
-        "Border Collie",
-        "Bernese Mountain Dog",
-        "Cocker Spaniel",
-        "Shetland Sheepdog",
-        "Boston Terrier",
-        "Pug",
-        "Maltese",
-        "Bichon Frise",
-        "Saint Bernard",
-        "Weimaraner",
-        "Basset Hound",
-        "English Mastiff",
-        "Bull Terrier"
+        'Labrador Retriever',
+        'German Shepherd',
+        'Golden Retriever',
+        'Bulldog',
+        'Beagle',
+        'Poodle',
+        'Rottweiler',
+        'Yorkshire Terrier',
+        'Boxer',
+        'Dachshund',
+        'Siberian Husky',
+        'Great Dane',
+        'Doberman Pinscher',
+        'Shih Tzu',
+        'Australian Shepherd',
+        'Chihuahua',
+        'Pomeranian',
+        'Border Collie',
+        'Bernese Mountain Dog',
+        'Cocker Spaniel',
+        'Shetland Sheepdog',
+        'Boston Terrier',
+        'Pug',
+        'Maltese',
+        'Bichon Frise',
+        'Saint Bernard',
+        'Weimaraner',
+        'Basset Hound',
+        'English Mastiff',
+        'Bull Terrier',
     ];
 
     private $dangerousDogBreed = [
-        "Pitbull",
-        "Mastiff"
+        'Pitbull',
+        'Mastiff',
     ];
 
-    public function __construct(){}
-    public function load(ObjectManager $manager): void{
+    public function __construct()
+    {
+    }
+
+    public function load(ObjectManager $manager): void
+    {
         $petTypeRepository = $manager->getRepository(PetType::class);
-        $existingDogPetType = $petTypeRepository->findOneBy([ 'name' => PetTypeEnum::DOG->value ]);
+        $existingDogPetType = $petTypeRepository->findOneBy(['name' => PetTypeEnum::DOG->value]);
         if ($existingDogPetType) {
             $breedTypeRepository = $manager->getRepository(Breed::class);
             $existingBreedCount = $breedTypeRepository->count(['pet_type' => $existingDogPetType->getId()]);

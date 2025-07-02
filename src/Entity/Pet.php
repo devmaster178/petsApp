@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PetRepository::class)]
-#[ORM\Index(fields: ["name"])]
+#[ORM\Index(fields: ['name'])]
 class Pet
 {
     #[ORM\Id]
@@ -20,18 +20,18 @@ class Pet
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Pet name is required.")]
+    #[Assert\NotBlank(message: 'Pet name is required.')]
     #[Assert\Length(
         min: 2,
         max: 20,
-        minMessage: "Pet name must be at least {{ limit }} characters long.",
-        maxMessage: "Pet name cannot be longer than {{ limit }} characters."
+        minMessage: 'Pet name must be at least {{ limit }} characters long.',
+        maxMessage: 'Pet name cannot be longer than {{ limit }} characters.'
     )]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'pets')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotNull(message: "Pet type is required")]
+    #[Assert\NotNull(message: 'Pet type is required')]
     #[Assert\Valid]
     private ?PetType $type = null;
 
@@ -88,7 +88,7 @@ class Pet
         return $this;
     }
 
-    public function getBreed():?Breed
+    public function getBreed(): ?Breed
     {
         return $this->breed;
     }
@@ -123,7 +123,6 @@ class Pet
 
         return $this;
     }
-
 
     public function getSex(): ?GenderEnum
     {
@@ -169,6 +168,7 @@ class Pet
     public function setHasDobInformation(?HasDobInformationEnum $hasDobInformation): static
     {
         $this->has_dob_information = $hasDobInformation;
+
         return $this;
     }
 }

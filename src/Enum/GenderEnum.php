@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Enum;
+
 enum GenderEnum: string
 {
     case MALE = 'male';
@@ -8,7 +9,7 @@ enum GenderEnum: string
 
     public function getLabel(): string
     {
-        return match($this) {
+        return match ($this) {
             self::MALE => 'Male',
             self::FEMALE => 'Female',
         };

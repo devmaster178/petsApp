@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Enum;
+
 enum PetTypeEnum: string
 {
     case CAT = 'Cat';
@@ -8,7 +9,7 @@ enum PetTypeEnum: string
 
     public function getLabel(): string
     {
-        return match($this) {
+        return match ($this) {
             self::CAT => 'Cat',
             self::DOG => 'Dog',
         };

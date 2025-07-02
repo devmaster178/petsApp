@@ -101,7 +101,9 @@
     "require-dev": {
         "dama/doctrine-test-bundle": "^8.3",
         "doctrine/doctrine-fixtures-bundle": "^4.1",
+        "friendsofphp/php-cs-fixer": "^3.76",
         "phpunit/phpunit": "^11.5",
+        "squizlabs/php_codesniffer": "*",
         "symfony/browser-kit": "7.3.*",
         "symfony/css-selector": "7.3.*",
         "symfony/debug-bundle": "7.3.*",
