@@ -1,4 +1,4 @@
-<div>
+<div {{ attributes }}>
     <div
         data-controller="form"
         class="w-full flex justify-center bg-gray-100 min-h-full">
@@ -7,7 +7,7 @@
                 action: '/pet/save',
                 'attr': {
                     'class': 'w-2/4 p-6 mt-6 bg-white shadow-md rounded',
-                    'novalidate': 'novalidate',
+                    'novalidate': 'novalidate'
                 },
             })
         }}
@@ -72,7 +72,7 @@
                         'data-select2-url-value':"/breeds",
                         'data-select2-placeholder-value':"Search for a breed",
                         'data-form-target':'breed',
-                        'data-action': 'select2:select->select2#onSelect',
+                        'data-action': 'select2:select->select2#onSelect'
                     }
                 })
             }}
@@ -89,7 +89,8 @@
                         form_widget(child, {
                             'attr': {
                                 'class': 'w-4 h-4 text-blue-600 bg-gray-100 ' ~ (child.vars.errors|length > 0 ? 'border-red-600' : 'border-gray-300'),
-                                'data-action':'change->form#onBreedChoiceChange'
+                                'data-action':'change->form#onBreedChoiceChange',
+                                'data-model':'norender:pet_form[breed_choice]'
                             }
                         })
                     }}
@@ -111,7 +112,8 @@
                     form_widget(form.breed_other,{
                         attr: {
                             class: 'block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border rounded-md placeholder-gray-400 focus:outline-none ' ~ (form.breed_other.vars.errors|length > 0 ? 'border-red-600' : 'border-gray-300'),
-                            placeholder: 'Collie, poodle, lab'
+                            placeholder: 'Collie, poodle, lab',
+                            'data-model':'norender:pet_form[breed_other]'
                         }
                     })
                 }}
@@ -119,7 +121,6 @@
             <div class="mt-1 text-sm text-red-600">
                 {{ form_errors(form.breed_other) }}
             </div>
-
         </div>
         <div class="relative space-y-2 mb-4">
             <p class="text-sm font-medium text-gray-600">What gender are they?</p>
@@ -128,7 +129,8 @@
                     <label class="inline-flex items-center">
                         {{ form_widget(child, {
                             attr: {
-                                class: 'hidden peer '  ~ (child.vars.errors|length > 0 ? 'border-red-600' : 'border-gray-300')
+                                class: 'hidden peer '  ~ (child.vars.errors|length > 0 ? 'border-red-600' : 'border-gray-300'),
+                                'data-model':'norender:pet_form[sex]'
                             }
                         }) }}
                         <span class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 peer-checked:bg-blue-400 peer-checked:text-white peer-checked:border-blue-500 peer-checked:z-10
@@ -149,7 +151,8 @@
                         {{ form_widget(child, {
                             attr: {
                                 'class': 'hidden peer '  ~ (child.vars.errors|length > 0 ? 'border-red-600' : 'border-gray-300'),
-                                'data-action': 'change->form#onHasDobInformationChange'
+                                'data-action': 'change->form#onHasDobInformationChange',
+                                'data-model':'norender:pet_form[has_dob_information]'
                             }
                         }) }}
                         <span class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 peer-checked:bg-blue-400 peer-checked:text-white peer-checked:border-blue-500 peer-checked:z-10
@@ -174,6 +177,7 @@
                 form_widget(form.age, {
                     attr: {
                         class: 'block appearance-none w-full border text-gray-600 text-sm font-medium py-3 px-4 pr-8 h-11 rounded leading-tight focus:outline-none focus:bg-white ' ~ (form.age.vars.errors|length > 0 ? 'border-red-600' : 'focus:border-gray-500 border-gray-300'),
+                        'data-model':'norender:pet_form[age]'
                     }
                 })
             }}
@@ -193,7 +197,8 @@
                         {{
                             form_widget(form.date_of_birth.month,{
                                 attr: {
-                                    class: 'block appearance-none w-full border text-gray-600 text-sm font-medium py-3 px-4 pr-8 h-11 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ' ~ (form.date_of_birth.vars.errors|length > 0 ? 'border-red-600' : 'border-gray-300')
+                                    class: 'block appearance-none w-full border text-gray-600 text-sm font-medium py-3 px-4 pr-8 h-11 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ' ~ (form.date_of_birth.vars.errors|length > 0 ? 'border-red-600' : 'border-gray-300'),
+                                    'data-model':'norender:pet_form[date_of_birth][month]'
                                 }
                             })
                         }}
@@ -209,7 +214,8 @@
                         {{
                             form_widget(form.date_of_birth.day,{
                                 attr: {
-                                    class: 'block appearance-none w-full border border-gray-200 text-gray-600 text-sm font-medium py-3 px-4 pr-8 h-11 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 '  ~ (form.date_of_birth.vars.errors|length > 0 ? 'border-red-600' : 'border-gray-300')
+                                    class: 'block appearance-none w-full border border-gray-200 text-gray-600 text-sm font-medium py-3 px-4 pr-8 h-11 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 '  ~ (form.date_of_birth.vars.errors|length > 0 ? 'border-red-600' : 'border-gray-300'),
+                                    'data-model':'norender:pet_form[date_of_birth][day]'
                                 }
                             })
                         }}
@@ -225,7 +231,8 @@
                         {{
                             form_widget(form.date_of_birth.year,{
                                 attr: {
-                                    class: 'block appearance-none w-full border border-gray-200 text-gray-600 text-sm font-medium py-3 px-4 pr-8 h-11 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 '  ~ (form.date_of_birth.vars.errors|length > 0 ? 'border-red-600' : 'border-gray-300')
+                                    class: 'block appearance-none w-full border border-gray-200 text-gray-600 text-sm font-medium py-3 px-4 pr-8 h-11 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 '  ~ (form.date_of_birth.vars.errors|length > 0 ? 'border-red-600' : 'border-gray-300'),
+                                    'data-model':'norender:pet_form[date_of_birth][year]'
                                 }
                             })
                         }}

@@ -16,6 +16,7 @@ class PetFormComponent extends AbstractController
 {
     use DefaultActionTrait;
     use ComponentWithFormTrait;
+
     #[LiveProp(writable: true)]
     public ?Pet $initialFormData = null;
 
