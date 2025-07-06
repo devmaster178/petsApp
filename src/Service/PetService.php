@@ -70,6 +70,7 @@ class PetService
         }
 
         $queryBuilder->orderBy('p.id', 'DESC');
+
         return Pagerfanta::createForCurrentPageWithMaxPerPage(
             new QueryAdapter($queryBuilder),
             $currentPage,
